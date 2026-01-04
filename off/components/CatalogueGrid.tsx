@@ -82,7 +82,7 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                     </div>
 
                     {/* Model number - larger and blue */}
-                    <div className="w-full text-center mt-1">
+                    <div className="w-full text-center mt-0">
                       <p className="text-2xl font-bold text-[#0b1a3d] mb-0">
                         B{item.modelNumber}
                       </p>
