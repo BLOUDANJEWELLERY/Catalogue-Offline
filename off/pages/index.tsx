@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { catalogueStore } from "@/lib/offlineStore";
 import CatalogueGrid from "@/components/CatalogueGrid";
+import Head from "next/head";
 
 interface CatalogueItem {
   _id: string;
@@ -37,5 +38,12 @@ export default function CataloguePage() {
     load();
   }, []);
 
-  return <CatalogueGrid items={items} />;
+  return (
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=5, minimum-scale=0.5" />
+      </Head>
+      <CatalogueGrid items={items} />
+    </>
+  );
 }
