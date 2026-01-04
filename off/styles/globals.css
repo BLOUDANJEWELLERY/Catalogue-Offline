@@ -160,32 +160,55 @@ body {
     size: A4;
     margin: 0;
   }
+
+/* Golden color utility */
+.golden-bg {
+  background-color: #c7a332;
+}
+
+.golden-border {
+  border-color: #c7a332;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  /* Remove extra spacing */
+  .mobile-page-content {
+    padding: 0.25rem;
+  }
   
-  .golden-header, .golden-footer {
-    background: #f59e0b !important;
+  /* Make images take more space */
+  .bangle-image-container {
+    padding: 0 !important;
+  }
+  
+  /* Larger model numbers */
+  .model-number {
+    font-size: 1.75rem !important; /* 28px */
+    font-weight: 900 !important;
+  }
+}
+
+/* Desktop optimization */
+@media (min-width: 769px) {
+  .bangle-image-container {
+    padding: 0.25rem !important;
+  }
+  
+  .model-number {
+    font-size: 2.5rem !important; /* 40px */
+  }
+}
+
+/* Print styles */
+@media print {
+  .golden-bg {
+    background-color: #c7a332 !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
   
-  .model-number-blue {
-    color: #1d4ed8 !important;
-  }
-  
   .golden-border {
-    border-color: #f59e0b !important;
-    animation: none;
+    border-color: #c7a332 !important;
   }
-}
-
-/* Responsive image sizes */
-@media (max-width: 640px) {
-  .bangle-image-container {
-    padding: 0.25rem !important;
-  }
-}
-
-/* Golden border for empty slots */
-.empty-slot-golden {
-  background: linear-gradient(45deg, #fef3c7, #fffbeb);
-  border-style: dashed;
 }
