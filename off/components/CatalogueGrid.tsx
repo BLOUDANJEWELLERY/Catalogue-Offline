@@ -36,77 +36,73 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
         {pages.map((pageItems, pageIndex) => (
           <div 
             key={`page-mobile-${pageIndex}`}
-            className="bg-white shadow-lg mb-3 mx-2 rounded-lg"
+            className="bg-white shadow-lg mb-2 mx-2 rounded-lg"
             style={{
               minHeight: 'calc(100vh - 1rem)',
               maxHeight: 'calc(100vh - 1rem)',
               overflow: 'hidden'
             }}
           >
-            {/* Page Header - Golden background, black text */}
-            <div className="text-center py-3 px-4 border-b border-[#c7a332] bg-[#c7a332]">
-              <h1 className="text-base font-bold text-black">
+            {/* Page Header - Minimal padding */}
+            <div className="text-center py-2 px-4 border-b border-[#c7a332] bg-[#c7a332]">
+              <h1 className="text-sm font-bold text-black">
                 BLOUDAN JEWELLERY
               </h1>
-              <h2 className="text-sm text-black font-medium">
+              <h2 className="text-xs text-black">
                 BANGLES CATALOGUE
               </h2>
             </div>
 
-            {/* Page Content */}
-            <div className="p-2">
-              <div className="grid grid-cols-2 grid-rows-2 gap-2 h-[calc(100vh-140px)]">
+            {/* Page Content - Tight spacing */}
+            <div className="p-1">
+              <div className="grid grid-cols-2 grid-rows-2 gap-1 h-[calc(100vh-100px)]">
                 {pageItems.map((item) => (
                   <div 
                     key={item._id}
-                    className="relative border-2 border-[#c7a332] rounded-xl shadow-sm overflow-hidden flex flex-col items-center justify-center p-1 bg-white"
+                    className="relative border-2 border-[#c7a332] rounded-lg overflow-hidden flex flex-col items-center p-0.5 bg-white"
                   >
-                    {/* Image container - bigger */}
-                    <div className="relative w-full flex-1 flex items-center justify-center">
+                    {/* Image container - fill available space */}
+                    <div className="relative w-full flex-1 min-h-0 flex items-center justify-center">
                       {item.image ? (
-                        <div className="relative w-40 h-40">
+                        <div className="relative w-full h-full max-w-[140px] max-h-[140px]">
                           <Image
                             src={urlFor(item.image).width(500).url()}
                             alt={`B${item.modelNumber}`}
                             fill
-                            className="object-contain p-1 rounded-lg"
+                            className="object-contain p-0.5"
                             unoptimized
                             sizes="45vw"
                           />
                         </div>
                       ) : (
-                        <div className="w-40 h-40 bg-gray-100 rounded-lg flex items-center justify-center">
-                          <span className="text-gray-400 text-sm">No Image</span>
+                        <div className="w-full h-full max-w-[140px] max-h-[140px] bg-gray-100 rounded flex items-center justify-center">
+                          <span className="text-gray-400 text-xs">No Image</span>
                         </div>
                       )}
                     </div>
 
-                    {/* Model number - larger and blue */}
-                    <div className="w-full text-center mt-0">
-                      <p className="text-2xl font-bold text-[#0b1a3d] mb-0">
+                    {/* Model number - directly below image */}
+                    <div className="w-full text-center pt-0">
+                      <p className="text-xl font-bold text-[#0b1a3d]">
                         B{item.modelNumber}
                       </p>
-                      <div className="space-y-0">
+                      <div>
                         {item.sizes?.includes("Adult") && item.weightAdult && (
-                          <p className="text-xs font-medium text-gray-700 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
+                          <p className="text-xs text-gray-700">
                             Adult - {item.weightAdult}g
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && item.weightKids && (
-                          <p className="text-xs font-medium text-gray-700 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
+                          <p className="text-xs text-gray-700">
                             Kids - {item.weightKids}g
                           </p>
                         )}
                         {/* If no weight specified */}
                         {item.sizes?.includes("Adult") && !item.weightAdult && (
-                          <p className="text-xs font-medium text-gray-700 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
-                            Adult
-                          </p>
+                          <p className="text-xs text-gray-700">Adult</p>
                         )}
                         {item.sizes?.includes("Kids") && !item.weightKids && (
-                          <p className="text-xs font-medium text-gray-700 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
-                            Kids
-                          </p>
+                          <p className="text-xs text-gray-700">Kids</p>
                         )}
                       </div>
                     </div>
@@ -118,18 +114,18 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                   Array.from({ length: 4 - pageItems.length }).map((_, index) => (
                     <div 
                       key={`empty-mobile-${pageIndex}-${index}`} 
-                      className="border-2 border-dashed border-[#c7a332] rounded-xl flex items-center justify-center bg-gray-50"
+                      className="border-2 border-dashed border-[#c7a332] rounded-lg flex items-center justify-center p-0.5 bg-gray-50"
                     >
-                      <span className="text-gray-300 text-lg">—</span>
+                      <span className="text-gray-300">—</span>
                     </div>
                   ))
                 }
               </div>
             </div>
 
-            {/* Page Footer - Golden background, black text */}
-            <div className="text-center py-2 border-t border-[#c7a332] bg-[#c7a332]">
-              <p className="text-sm font-medium text-black">
+            {/* Page Footer - Minimal padding */}
+            <div className="text-center py-1 border-t border-[#c7a332] bg-[#c7a332]">
+              <p className="text-xs font-medium text-black">
                 Page {pageIndex + 1}
               </p>
             </div>
@@ -150,93 +146,89 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
               margin: '0 auto'
             }}
           >
-            {/* Page Header - Desktop with golden background */}
-            <div className="text-center py-4 px-6 border-b border-[#c7a332] bg-[#c7a332]">
-              <h1 className="text-xl font-bold text-black tracking-wide">
+            {/* Page Header - Minimal padding */}
+            <div className="text-center py-2 px-6 border-b border-[#c7a332] bg-[#c7a332]">
+              <h1 className="text-lg font-bold text-black">
                 BLOUDAN JEWELLERY
               </h1>
-              <h2 className="text-lg text-black font-medium">
+              <h2 className="text-md text-black">
                 BANGLES CATALOGUE
               </h2>
             </div>
 
-            {/* Page Content - Desktop */}
-            <div className="p-6">
-              <div className="grid grid-cols-2 grid-rows-2 gap-4 h-[calc(297mm-140px)]">
+            {/* Page Content - Tight spacing */}
+            <div className="p-4">
+              <div className="grid grid-cols-2 grid-rows-2 gap-3 h-[calc(297mm-100px)]">
                 {pageItems.map((item) => (
                   <div 
                     key={item._id}
-                    className="relative border-2 border-[#c7a332] rounded-2xl shadow-md overflow-hidden flex flex-col items-center justify-center p-2 bg-white"
+                    className="relative border-2 border-[#c7a332] rounded-xl overflow-hidden flex flex-col items-center p-1 bg-white"
                   >
-                    {/* Image container - Desktop, bigger */}
-                    <div className="relative w-full flex-1 flex items-center justify-center">
+                    {/* Image container - fill space */}
+                    <div className="relative w-full flex-1 min-h-0 flex items-center justify-center">
                       {item.image ? (
-                        <div className="relative w-56 h-56">
+                        <div className="relative w-full h-full max-w-[220px] max-h-[220px]">
                           <Image
                             src={urlFor(item.image).width(800).url()}
                             alt={`B${item.modelNumber}`}
                             fill
-                            className="object-contain p-2 rounded-xl"
+                            className="object-contain p-1"
                             unoptimized
                             sizes="25vw"
                           />
                         </div>
                       ) : (
-                        <div className="w-56 h-56 bg-gray-100 rounded-xl flex items-center justify-center">
+                        <div className="w-full h-full max-w-[220px] max-h-[220px] bg-gray-100 rounded flex items-center justify-center">
                           <span className="text-gray-400">No Image</span>
                         </div>
                       )}
                     </div>
 
-                    {/* Model number and weight - Desktop, larger text */}
-                    <div className="w-full text-center mt-2">
-                      <p className="text-3xl font-bold text-[#0b1a3d] mb-1">
+                    {/* Model number - directly below image */}
+                    <div className="w-full text-center pt-1">
+                      <p className="text-2xl font-bold text-[#0b1a3d]">
                         B{item.modelNumber}
                       </p>
-                      <div className="space-y-1">
+                      <div>
                         {item.sizes?.includes("Adult") && item.weightAdult && (
-                          <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                          <p className="text-sm text-gray-800">
                             Adult - {item.weightAdult}g
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && item.weightKids && (
-                          <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                          <p className="text-sm text-gray-800">
                             Kids - {item.weightKids}g
                           </p>
                         )}
                         {/* If no weight specified */}
                         {item.sizes?.includes("Adult") && !item.weightAdult && (
-                          <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
-                            Adult
-                          </p>
+                          <p className="text-sm text-gray-800">Adult</p>
                         )}
                         {item.sizes?.includes("Kids") && !item.weightKids && (
-                          <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
-                            Kids
-                          </p>
+                          <p className="text-sm text-gray-800">Kids</p>
                         )}
                       </div>
                     </div>
                   </div>
                 ))}
                 
-                {/* Fill empty slots - Desktop */}
+                {/* Fill empty slots */}
                 {pageItems.length < 4 && 
                   Array.from({ length: 4 - pageItems.length }).map((_, index) => (
                     <div 
                       key={`empty-desktop-${pageIndex}-${index}`} 
-                      className="border-2 border-dashed border-[#c7a332] rounded-2xl flex items-center justify-center bg-gray-50"
+                      className="border-2 border-dashed border-[#c7a332] rounded-xl flex items-center justify-center p-1 bg-gray-50"
                     >
-                      <span className="text-gray-300 text-2xl">—</span>
+                      <span className="text-gray-300 text-xl">—</span>
                     </div>
                   ))
                 }
               </div>
             </div>
 
-            {/* Page Footer - Desktop with golden background */}
-            <div className="text-center py-3 border-t border-[#c7a332] bg-[#c7a332]">
-              <p className="text-base font-medium text-black">
+            {/* Page Footer - Minimal padding */}
+            <div className="text-center py-1 border-t border-[#c7a332] bg-[#c7a332]">
+              <p className="text-sm font-medium text-black">
                 Page {pageIndex + 1}
               </p>
             </div>
