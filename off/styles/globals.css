@@ -154,13 +154,6 @@ body {
   }
 }
 
-/* Print styles for golden */
-@media print {
-  @page {
-    size: A4;
-    margin: 0;
-  }
-
 /* Golden color utility */
 .golden-bg {
   background-color: #c7a332;
