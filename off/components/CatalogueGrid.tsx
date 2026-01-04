@@ -36,15 +36,21 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
         {pages.map((pageItems, pageIndex) => (
           <div 
             key={`page-mobile-${pageIndex}`}
-            className="bg-white mb-2"
+            className="bg-white"
             style={{
               minHeight: '100vh',
               maxHeight: '100vh',
               overflow: 'hidden'
             }}
           >
-            {/* Page Header - Golden background */}
-            <div className="text-center py-3 px-4 bg-gradient-to-r from-amber-400 to-yellow-500 border-b border-amber-300">
+            {/* Page Header */}
+            <div 
+              className="text-center py-2 px-4 border-b"
+              style={{ 
+                backgroundColor: '#c7a332',
+                borderColor: '#b3942d'
+              }}
+            >
               <h1 className="text-base font-bold text-black">
                 BLOUDAN JEWELLERY
               </h1>
@@ -53,62 +59,63 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
               </h2>
             </div>
 
-            {/* Page Content */}
-            <div className="p-2">
-              <div className="grid grid-cols-2 grid-rows-2 gap-2 h-[calc(100vh-120px)]">
+            {/* Page Content - Very tight spacing */}
+            <div className="p-0">
+              <div className="grid grid-cols-2 grid-rows-2 gap-0 h-[calc(100vh-100px)]">
                 {pageItems.map((item) => (
                   <div 
                     key={item._id}
-                    className="relative border-2 border-amber-400 rounded-xl overflow-hidden flex flex-col items-center justify-center bg-white shadow-sm"
+                    className="relative border flex flex-col items-center justify-center bg-white"
+                    style={{ borderColor: '#c7a332' }}
                   >
-                    {/* Image container - bigger */}
-                    <div className="relative w-full flex-1 flex items-center justify-center p-1">
+                    {/* Image container - NO PADDING/MARGIN */}
+                    <div className="relative w-full flex-1 flex items-center justify-center">
                       {item.image ? (
                         <div className="relative w-full h-full">
                           <Image
                             src={urlFor(item.image).width(600).url()}
                             alt={`B${item.modelNumber}`}
                             fill
-                            className="object-contain p-1 rounded-lg"
+                            className="object-contain"
                             unoptimized
                             sizes="50vw"
                             priority={pageIndex === 0}
                           />
                         </div>
                       ) : (
-                        <div className="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center">
-                          <span className="text-gray-400 text-sm">No Image</span>
+                        <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                          <span className="text-gray-400 text-xs">No Image</span>
                         </div>
                       )}
                     </div>
 
-                    {/* Model number and weight */}
-                    <div className="w-full text-center mt-1 px-1 pb-1">
+                    {/* Model number and weight - NO padding, just small margins */}
+                    <div className="w-full text-center mt-0 mb-0">
                       {/* Model number - blue and larger */}
-                      <p className="text-2xl font-extrabold text-blue-700 mb-1 tracking-tight">
+                      <p className="text-xl font-black text-blue-700 my-0">
                         B{item.modelNumber}
                       </p>
                       
-                      {/* Weight/size badges */}
-                      <div className="space-y-0.5">
+                      {/* Weight/size badges - no padding */}
+                      <div>
                         {item.sizes?.includes("Adult") && item.weightAdult && (
-                          <p className="text-xs font-semibold text-gray-800 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
+                          <p className="text-xs font-semibold text-gray-800 my-0">
                             Adult - {item.weightAdult}g
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && item.weightKids && (
-                          <p className="text-xs font-semibold text-gray-800 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
+                          <p className="text-xs font-semibold text-gray-800 my-0">
                             Kids - {item.weightKids}g
                           </p>
                         )}
                         {/* If no weight specified */}
                         {item.sizes?.includes("Adult") && !item.weightAdult && (
-                          <p className="text-xs font-semibold text-gray-800 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
+                          <p className="text-xs font-semibold text-gray-800 my-0">
                             Adult
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && !item.weightKids && (
-                          <p className="text-xs font-semibold text-gray-800 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
+                          <p className="text-xs font-semibold text-gray-800 my-0">
                             Kids
                           </p>
                         )}
@@ -122,17 +129,24 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                   Array.from({ length: 4 - pageItems.length }).map((_, index) => (
                     <div 
                       key={`empty-mobile-${pageIndex}-${index}`} 
-                      className="border-2 border-dashed border-amber-200 rounded-xl flex items-center justify-center bg-amber-50"
+                      className="border flex items-center justify-center bg-gray-50"
+                      style={{ borderColor: '#c7a332' }}
                     >
-                      <span className="text-amber-200 text-xl">—</span>
+                      <span className="text-gray-300 text-lg">—</span>
                     </div>
                   ))
                 }
               </div>
             </div>
 
-            {/* Page Footer - Golden background */}
-            <div className="text-center py-2 bg-gradient-to-r from-amber-400 to-yellow-500 border-t border-amber-300">
+            {/* Page Footer */}
+            <div 
+              className="text-center py-2 border-t"
+              style={{ 
+                backgroundColor: '#c7a332',
+                borderColor: '#b3942d'
+              }}
+            >
               <p className="text-sm font-bold text-black">
                 Page {pageIndex + 1}
               </p>
@@ -142,11 +156,11 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
       </div>
 
       {/* Desktop view */}
-      <div className="hidden md:block max-w-[210mm] mx-auto space-y-4">
+      <div className="hidden md:block max-w-[210mm] mx-auto">
         {pages.map((pageItems, pageIndex) => (
           <div 
             key={`page-desktop-${pageIndex}`}
-            className="bg-white shadow-xl rounded-lg"
+            className="bg-white mb-4"
             style={{
               width: '210mm',
               minHeight: '297mm',
@@ -154,71 +168,78 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
               margin: '0 auto'
             }}
           >
-            {/* Page Header - Desktop - Golden */}
-            <div className="text-center py-4 px-6 bg-gradient-to-r from-amber-400 to-yellow-500 border-b border-amber-300">
-              <h1 className="text-2xl font-bold text-black tracking-wider">
+            {/* Page Header - Desktop */}
+            <div 
+              className="text-center py-3 px-6 border-b"
+              style={{ 
+                backgroundColor: '#c7a332',
+                borderColor: '#b3942d'
+              }}
+            >
+              <h1 className="text-xl font-bold text-black tracking-wide">
                 BLOUDAN JEWELLERY
               </h1>
-              <h2 className="text-xl font-semibold text-black">
+              <h2 className="text-lg font-semibold text-black">
                 BANGLES CATALOGUE
               </h2>
             </div>
 
-            {/* Page Content - Desktop */}
-            <div className="p-6">
-              <div className="grid grid-cols-2 grid-rows-2 gap-4 h-[calc(297mm-120px)]">
+            {/* Page Content - Desktop - NO padding */}
+            <div className="p-0">
+              <div className="grid grid-cols-2 grid-rows-2 h-[calc(297mm-100px)]">
                 {pageItems.map((item) => (
                   <div 
                     key={item._id}
-                    className="relative border-3 border-amber-500 rounded-2xl overflow-hidden flex flex-col items-center justify-center bg-white shadow-md hover:shadow-lg transition-shadow"
+                    className="relative border flex flex-col items-center justify-center bg-white"
+                    style={{ borderColor: '#c7a332' }}
                   >
-                    {/* Image container - Desktop - bigger */}
-                    <div className="relative w-full flex-1 flex items-center justify-center p-2">
+                    {/* Image container - Desktop - NO padding */}
+                    <div className="relative w-full flex-1 flex items-center justify-center">
                       {item.image ? (
                         <div className="relative w-full h-full">
                           <Image
                             src={urlFor(item.image).width(800).url()}
                             alt={`B${item.modelNumber}`}
                             fill
-                            className="object-contain p-2 rounded-xl"
+                            className="object-contain"
                             unoptimized
                             sizes="25vw"
                           />
                         </div>
                       ) : (
-                        <div className="w-full h-full bg-gray-100 rounded-xl flex items-center justify-center">
+                        <div className="w-full h-full bg-gray-100 flex items-center justify-center">
                           <span className="text-gray-400">No Image</span>
                         </div>
                       )}
                     </div>
 
                     {/* Model number and weight - Desktop */}
-                    <div className="w-full text-center px-3 pb-3">
+                    <div className="w-full text-center">
                       {/* Model number - blue and much larger */}
-                      <p className="text-3xl font-black text-blue-700 mb-2 tracking-tight">
+                      <p className="text-3xl font-black text-blue-700 my-1">
                         B{item.modelNumber}
                       </p>
                       
                       {/* Weight/size badges */}
-                      <div className="space-y-1">
+                      <div>
                         {item.sizes?.includes("Adult") && item.weightAdult && (
-                          <p className="text-sm font-bold text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                          <p className="text-sm font-bold text-gray-800 my-0">
                             Adult - {item.weightAdult}g
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && item.weightKids && (
-                          <p className="text-sm font-bold text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                          <p className="text-sm font-bold text-gray-800 my-0">
                             Kids - {item.weightKids}g
                           </p>
                         )}
                         {/* If no weight specified */}
                         {item.sizes?.includes("Adult") && !item.weightAdult && (
-                          <p className="text-sm font-bold text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                          <p className="text-sm font-bold text-gray-800 my-0">
                             Adult
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && !item.weightKids && (
-                          <p className="text-sm font-bold text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                          <p className="text-sm font-bold text-gray-800 my-0">
                             Kids
                           </p>
                         )}
@@ -232,18 +253,25 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                   Array.from({ length: 4 - pageItems.length }).map((_, index) => (
                     <div 
                       key={`empty-desktop-${pageIndex}-${index}`} 
-                      className="border-3 border-dashed border-amber-300 rounded-2xl flex items-center justify-center bg-amber-50"
+                      className="border flex items-center justify-center bg-gray-50"
+                      style={{ borderColor: '#c7a332' }}
                     >
-                      <span className="text-amber-300 text-3xl">—</span>
+                      <span className="text-gray-300 text-2xl">—</span>
                     </div>
                   ))
                 }
               </div>
             </div>
 
-            {/* Page Footer - Desktop - Golden */}
-            <div className="text-center py-3 bg-gradient-to-r from-amber-400 to-yellow-500 border-t border-amber-300">
-              <p className="text-lg font-bold text-black">
+            {/* Page Footer - Desktop */}
+            <div 
+              className="text-center py-2 border-t"
+              style={{ 
+                backgroundColor: '#c7a332',
+                borderColor: '#b3942d'
+              }}
+            >
+              <p className="text-base font-bold text-black">
                 Page {pageIndex + 1}
               </p>
             </div>
@@ -251,7 +279,7 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
         ))}
         
         {/* Total pages info */}
-        <div className="text-center text-sm text-gray-600 mt-6 mb-8 px-4 py-2 bg-amber-50 rounded-lg">
+        <div className="text-center text-sm text-gray-600 mt-6 mb-8">
           <p className="font-medium">Total {pages.length} pages • Scroll vertically to view all</p>
         </div>
       </div>
