@@ -24,3 +24,76 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Force A4 paper size for pages */
+@page {
+  size: A4;
+  margin: 0;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Hide non-essential elements */
+  .print-hide {
+    display: none !important;
+  }
+  
+  /* Page breaks */
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+  
+  /* Ensure each page is printed on a new page */
+  .pdf-page {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+
+/* Mobile PDF styling */
+@media (max-width: 768px) {
+  .pdf-container {
+    transform-origin: top center;
+  }
+  
+  /* Allow touch zooming */
+  html {
+    touch-action: manipulation;
+  }
+  
+  /* Improve scrolling */
+  body {
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* PDF page effects */
+.pdf-page {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+/* Scale for mobile to fit A4 */
+@media (max-width: 768px) {
+  .pdf-page {
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+}
+
+/* Alternative: use media query for very small screens */
+@media (max-width: 480px) {
+  .pdf-page {
+    transform: scale(0.8);
+    margin-left: -10%;
+  }
+}
