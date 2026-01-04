@@ -41,7 +41,7 @@ export default function CataloguePage() {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=5, minimum-scale=0.5" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, minimum-scale=0.5" />
       </Head>
       <CatalogueGrid items={items} />
     </>
