@@ -98,54 +98,84 @@ body {
   }
 }
 
-/* Golden color utility */
-.golden-bg {
-  background-color: #c7a332;
+/* Golden header/footer styling */
+.golden-header {
+  background: linear-gradient(135deg, #c7a332 0%, #d4b65e 100%);
 }
 
+.golden-footer {
+  background: linear-gradient(135deg, #c7a332 0%, #d4b65e 100%);
+}
+
+/* Item box with golden border */
 .golden-border {
-  border-color: #c7a332;
+  border: 2px solid #c7a332;
+  box-shadow: 0 2px 8px rgba(199, 163, 50, 0.2);
 }
 
-/* Mobile optimization */
+/* Blue text for model numbers */
+.model-number-blue {
+  color: #0b1a3d;
+  text-shadow: 0 1px 2px rgba(11, 26, 61, 0.1);
+}
+
+/* Image sizing for mobile */
 @media (max-width: 768px) {
-  /* Remove extra spacing */
-  .mobile-page-content {
-    padding: 0.25rem;
+  .mobile-image {
+    width: 160px;
+    height: 160px;
+    min-width: 160px;
+    min-height: 160px;
   }
   
-  /* Make images take more space */
-  .bangle-image-container {
-    padding: 0 !important;
+  .mobile-item {
+    padding: 8px;
   }
   
-  /* Larger model numbers */
-  .model-number {
-    font-size: 1.75rem !important; /* 28px */
-    font-weight: 900 !important;
+  /* Ensure header/footer fit perfectly */
+  .mobile-header {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  
+  .mobile-footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }
 
-/* Desktop optimization */
+/* Desktop specific */
 @media (min-width: 769px) {
-  .bangle-image-container {
-    padding: 0.25rem !important;
-  }
-  
-  .model-number {
-    font-size: 2.5rem !important; /* 40px */
+  .desktop-image {
+    width: 224px;
+    height: 224px;
+    min-width: 224px;
+    min-height: 224px;
   }
 }
 
 /* Print styles */
 @media print {
-  .golden-bg {
-    background-color: #c7a332 !important;
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  
+  .golden-header, .golden-footer {
+    background: #c7a332 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .model-number-blue {
+    color: #0b1a3d !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
   
   .golden-border {
     border-color: #c7a332 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
