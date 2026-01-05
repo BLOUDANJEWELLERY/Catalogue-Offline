@@ -26,25 +26,44 @@ interface CatalogueGridProps {
 export default function CatalogueGrid({ items }: CatalogueGridProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState<number | null>(null);
-  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [preloadedImages, setPreloadedImages] = useState<{[key: string]: HTMLImageElement}>({});
+
+  // Preload all images on component mount
+  useEffect(() => {
+    const preloadImages = async () => {
+      const preloaded: {[key: string]: HTMLImageElement} = {};
+      
+      items.forEach(item => {
+        if (item.image) {
+          const imageUrl = urlFor(item.image).width(1200).url();
+          const img = new Image();
+          img.src = imageUrl;
+          preloaded[imageUrl] = img;
+        }
+      });
+      
+      setPreloadedImages(preloaded);
+    };
+    
+    preloadImages();
+  }, [items]);
 
   const handleImageClick = (item: CatalogueItem) => {
     if (item.image) {
-      // Always use the same image URL as in the grid (already loaded)
-      const imageUrl = urlFor(item.image).width(800).url();
+      const imageUrl = urlFor(item.image).width(1200).url();
       
-      // If image is already loaded, show it immediately
-      if (loadedImages.has(imageUrl)) {
+      // If image is already preloaded, show it immediately
+      if (preloadedImages[imageUrl]) {
         setSelectedImage(imageUrl);
         setSelectedModel(item.modelNumber);
       } else {
-        // Preload image first, then show it
-        const img = new window.Image();
+        // Fallback: load and cache
+        const img = new Image();
         img.src = imageUrl;
         img.onload = () => {
-          setLoadedImages(prev => new Set(prev).add(imageUrl));
           setSelectedImage(imageUrl);
           setSelectedModel(item.modelNumber);
+          setPreloadedImages(prev => ({...prev, [imageUrl]: img}));
         };
       }
     }
@@ -77,29 +96,29 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
 
   return (
     <div className="min-h-screen bg-gray-100 p-0">
-      {/* Simple Image Popup */}
+      {/* Instant Image Popup */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 cursor-pointer"
           onClick={handleCloseImage}
         >
           {/* Transparent overlay */}
-          <div className="absolute inset-0 bg-black/70" />
+          <div className="absolute inset-0 bg-black/80 transition-opacity duration-300 ease-out" />
           
-          {/* Image with square golden border */}
+          {/* Image with rounded golden border */}
           <div 
-            className="relative z-10"
+            className="relative z-10 max-w-[90vw] max-h-[90vh]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative">
-              {/* Image with square golden border - uses natural aspect ratio */}
+            <div className="relative rounded-2xl overflow-hidden border-[3px] border-[#c7a332] shadow-2xl">
+              {/* Display preloaded image */}
               <img
                 src={selectedImage}
                 alt={`Bangle Model B${selectedModel}`}
-                className="max-w-[90vw] max-h-[85vh] border-2 border-[#c7a332] shadow-2xl"
+                className="block w-full h-auto max-h-[85vh] object-contain"
                 style={{
-                  aspectRatio: '1/1',
-                  objectFit: 'contain'
+                  maxWidth: 'min(900px, 90vw)',
+                  maxHeight: 'min(900px, 85vh)'
                 }}
               />
             </div>
@@ -144,11 +163,6 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                             className="object-contain rounded-lg"
                             unoptimized
                             sizes="(max-width: 640px) 45vw, (max-width: 768px) 30vw, (max-width: 1024px) 22vw, 20vw"
-                            onLoad={(e) => {
-                              // Mark this image as loaded for quick popup
-                              const imgUrl = urlFor(item.image!).width(800).url();
-                              setLoadedImages(prev => new Set(prev).add(imgUrl));
-                            }}
                           />
                         </>
                       ) : (
