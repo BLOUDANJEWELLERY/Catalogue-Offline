@@ -77,18 +77,18 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                     </div>
 
                     <div className="w-full text-center px-2 pb-2">
-                      <p className="text-2xl font-bold text-[#0b1a3d] mt-0.5">
+                      <p className="text-3xl font-bold text-[#0b1a3d] mt-0.5">
                         B{item.modelNumber}
                       </p>
                       <div className="space-y-0.5">
                         {item.sizes?.includes("Adult") && item.weightAdult && (
                           <p className="text-xs font-medium text-gray-700 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
-                            Adult - {item.weightAdult}g
+                            {item.weightAdult}g
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && item.weightKids && (
                           <p className="text-xs font-medium text-gray-700 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
-                            Kids - {item.weightKids}g
+                            K-{item.weightKids}g
                           </p>
                         )}
                         {item.sizes?.includes("Adult") && !item.weightAdult && (
