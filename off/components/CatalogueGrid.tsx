@@ -154,50 +154,50 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                 {pageItems.map((item) => (
                   <div 
                     key={item._id}
-                    className="relative border-2 border-[#c7a332] rounded-2xl shadow-md bg-white"
+                    className="relative border-2 border-[#c7a332] rounded-xl shadow-md bg-white"
                   >
-                    <div className="relative w-full h-56 flex items-center justify-center pt-2">
+                    <div className="relative w-full h-56 flex items-center justify-center pt-1">
                       {item.image ? (
                         <div className="relative w-52 h-52">
                           <Image
                             src={urlFor(item.image).width(800).url()}
                             alt={`B${item.modelNumber}`}
                             fill
-                            className="object-contain rounded-xl"
+                            className="object-contain rounded-lg"
                             unoptimized
                             sizes="25vw"
                           />
                         </div>
                       ) : (
-                        <div className="w-52 h-52 bg-gray-100 rounded-xl flex items-center justify-center">
+                        <div className="w-52 h-52 bg-gray-100 rounded-lg flex items-center justify-center">
                           <span className="text-gray-400">No Image</span>
                         </div>
                       )}
                     </div>
 
-                    <div className="w-full text-center px-4 pb-4">
-                      <p className="text-3xl font-bold text-[#0b1a3d] mt-1">
+                    <div className="w-full text-center px-4 pb-2">
+                      <p className="text-3xl font-bold text-[#0b1a3d] mt-0.5">
                         B{item.modelNumber}
                       </p>
-                      <div className="space-y-1">
+                      <div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
                         {item.sizes?.includes("Adult") && item.weightAdult && (
                           <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
-                            Adult - {item.weightAdult}g
+                            {item.weightAdult}g
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && item.weightKids && (
                           <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
-                            Kids - {item.weightKids}g
+                            K-{item.weightKids}g
                           </p>
                         )}
                         {item.sizes?.includes("Adult") && !item.weightAdult && (
                           <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
-                            Adult
+                            
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && !item.weightKids && (
                           <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
-                            Kids
+                            
                           </p>
                         )}
                       </div>
@@ -209,7 +209,7 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                   Array.from({ length: 4 - pageItems.length }).map((_, index) => (
                     <div 
                       key={`empty-desktop-${pageIndex}-${index}`} 
-                      className="border-2 border-dashed border-[#c7a332] rounded-2xl bg-gray-50 flex items-center justify-center"
+                      className="border-2 border-dashed border-[#c7a332] rounded-xl bg-gray-50 flex items-center justify-center"
                     >
                       <span className="text-gray-300 text-2xl">—</span>
                     </div>
