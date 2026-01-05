@@ -29,7 +29,7 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-0 md:p-2">
+    <div className="min-h-screen bg-gray-100 p-0">
       <div className="md:hidden">
         {pages.map((pageItems, pageIndex) => (
           <div 
@@ -128,20 +128,19 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
         ))}
       </div>
 
-      <div className="hidden md:block max-w-[210mm] mx-auto space-y-6">
+      <div className="hidden md:block">
         {pages.map((pageItems, pageIndex) => (
           <div 
             key={`page-desktop-${pageIndex}`}
-            className="bg-white shadow-lg border border-gray-300 rounded-lg"
+            className="bg-white shadow-lg mb-4 mx-auto rounded-lg"
             style={{
               width: '210mm',
               minHeight: '297mm',
-              aspectRatio: '1 / 1.414',
               margin: '0 auto'
             }}
           >
-            <div className="text-center py-4 px-6 border-b border-[#c7a332] bg-[#c7a332]">
-              <h1 className="text-xl font-bold text-black tracking-wide">
+            <div className="text-center py-2 px-6 border-b border-[#c7a332] bg-[#c7a332]">
+              <h1 className="text-xl font-bold text-black">
                 BLOUDAN JEWELLERY
               </h1>
               <h2 className="text-lg text-black font-medium">
@@ -149,16 +148,16 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
               </h2>
             </div>
 
-            <div className="p-6">
-              <div className="grid grid-cols-2 grid-rows-2 gap-4 h-[calc(297mm-140px)]">
+            <div className="p-2">
+              <div className="grid grid-cols-2 grid-rows-2 gap-2 h-[calc(297mm-80px)]">
                 {pageItems.map((item) => (
                   <div 
                     key={item._id}
-                    className="relative border-2 border-[#c7a332] rounded-xl shadow-md bg-white"
+                    className="relative border-2 border-[#c7a332] rounded-xl shadow-sm bg-white"
                   >
-                    <div className="relative w-full h-56 flex items-center justify-center pt-1">
+                    <div className="relative w-full h-48 flex items-center justify-center pt-0">
                       {item.image ? (
-                        <div className="relative w-52 h-52">
+                        <div className="relative w-44 h-44">
                           <Image
                             src={urlFor(item.image).width(800).url()}
                             alt={`B${item.modelNumber}`}
@@ -169,34 +168,34 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                           />
                         </div>
                       ) : (
-                        <div className="w-52 h-52 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div className="w-44 h-44 bg-gray-100 rounded-lg flex items-center justify-center">
                           <span className="text-gray-400">No Image</span>
                         </div>
                       )}
                     </div>
 
-                    <div className="w-full text-center px-4 pb-2">
-                      <p className="text-3xl font-bold text-[#0b1a3d] mt-0.5">
+                    <div className="w-full text-center px-2 pb-2">
+                      <p className="text-3xl font-bold text-[#0b1a3d] mt-0">
                         B{item.modelNumber}
                       </p>
                       <div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
                         {item.sizes?.includes("Adult") && item.weightAdult && (
-                          <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                          <p className="text-xs font-medium text-gray-800 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
                             {item.weightAdult}g
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && item.weightKids && (
-                          <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                          <p className="text-xs font-medium text-gray-800 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
                             K-{item.weightKids}g
                           </p>
                         )}
                         {item.sizes?.includes("Adult") && !item.weightAdult && (
-                          <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                          <p className="text-xs font-medium text-gray-800 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
                             
                           </p>
                         )}
                         {item.sizes?.includes("Kids") && !item.weightKids && (
-                          <p className="text-sm font-medium text-gray-800 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                          <p className="text-xs font-medium text-gray-800 bg-gray-100 rounded-full px-2 py-0.5 inline-block">
                             
                           </p>
                         )}
@@ -218,17 +217,13 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
               </div>
             </div>
 
-            <div className="text-center py-3 border-t border-[#c7a332] bg-[#c7a332]">
+            <div className="text-center py-2 border-t border-[#c7a332] bg-[#c7a332]">
               <p className="text-base font-medium text-black">
                 Page {pageIndex + 1}
               </p>
             </div>
           </div>
         ))}
-        
-        <div className="text-center text-sm text-gray-500 mt-8 mb-4">
-          <p>Designed for printing • {pages.length} pages total</p>
-        </div>
       </div>
     </div>
   );
