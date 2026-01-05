@@ -26,26 +26,10 @@ interface CatalogueGridProps {
 export default function CatalogueGrid({ items }: CatalogueGridProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Check for mobile on mount and resize
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const handleImageClick = (item: CatalogueItem) => {
     if (item.image) {
-      // Use appropriate image size based on device
-      const imageUrl = isMobile 
-        ? urlFor(item.image).width(800).url()
-        : urlFor(item.image).width(1200).url();
+      const imageUrl = urlFor(item.image).width(1200).url();
       setSelectedImage(imageUrl);
       setSelectedModel(item.modelNumber);
     }
@@ -68,7 +52,7 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
     return () => window.removeEventListener('keydown', handleEscKey);
   }, [selectedImage]);
 
-  // Items per page - responsive
+  // Items per page
   const itemsPerPage = 4;
   const pages = [];
   
@@ -85,42 +69,31 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
           onClick={handleCloseImage}
         >
           {/* Transparent overlay */}
-          <div className="absolute inset-0 bg-black/70 transition-opacity" />
+          <div className="absolute inset-0 bg-black/70" />
           
-          {/* Image container - click to close */}
-          <div className="relative z-10 w-full max-w-5xl mx-auto">
-            <div className="relative bg-white rounded-xl shadow-2xl overflow-hidden">
-              {/* Header */}
-              <div className="bg-[#c7a332] px-6 py-3 text-center">
-                <h3 className="text-lg md:text-xl font-bold text-black">
-                  BLOUDAN JEWELLERY - BANGLES CATALOGUE
-                </h3>
-                <p className="text-base md:text-lg text-black font-medium mt-1">
-                  Model: B{selectedModel}
-                </p>
-              </div>
-              
-              {/* Image */}
-              <div className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center p-4 md:p-8">
+          {/* Image with golden border */}
+          <div 
+            className="relative z-10 w-full max-w-4xl mx-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative bg-transparent">
+              {/* Image with thin golden border */}
+              <div className="relative w-full h-[70vh] md:h-[80vh]">
                 <Image
                   src={selectedImage}
                   alt={`Bangle Model B${selectedModel}`}
                   fill
-                  className="object-contain"
+                  className="object-contain p-1 border-2 border-[#c7a332] rounded-lg shadow-2xl"
                   unoptimized
                   priority
-                  onClick={(e) => e.stopPropagation()}
                 />
               </div>
               
-              {/* Footer */}
-              <div className="border-t border-gray-200 p-4 text-center bg-gray-50">
-                <button
-                  onClick={handleCloseImage}
-                  className="px-6 py-2 bg-[#0b1a3d] text-white font-medium rounded-lg hover:bg-[#142a5e] transition-colors text-sm md:text-base"
-                >
-                  Close (ESC or click outside)
-                </button>
+              {/* Simple close hint */}
+              <div className="text-center mt-4">
+                <p className="text-white text-sm opacity-80">
+                  Click outside image or press ESC to close
+                </p>
               </div>
             </div>
           </div>
@@ -173,11 +146,6 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                           <span className="text-gray-400 text-sm sm:text-base">No Image</span>
                         </div>
                       )}
-                      
-                      {/* Zoom indicator */}
-                      <div className="absolute top-2 right-2 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 bg-[#c7a332]/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="text-white text-xs sm:text-sm font-bold">+</span>
-                      </div>
                     </div>
 
                     {/* Model Number */}
@@ -215,24 +183,14 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
               </div>
             </div>
 
-            {/* Page Footer */}
+            {/* Page Footer - SIMPLIFIED */}
             <div className="text-center py-2 sm:py-3 border-t-2 border-[#c7a332] bg-[#c7a332]">
               <p className="text-sm sm:text-base md:text-lg font-medium text-black">
                 Page {pageIndex + 1} of {pages.length}
               </p>
-              <p className="text-xs sm:text-sm text-black/80 mt-0.5">
-                Click on any bangle to view enlarged image
-              </p>
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Mobile Navigation Hint */}
-      <div className="md:hidden fixed bottom-4 left-0 right-0 flex justify-center">
-        <div className="bg-black/80 text-white text-xs px-3 py-2 rounded-full backdrop-blur-sm">
-          🔍 Tap image to zoom • Scroll to see more pages
-        </div>
       </div>
     </div>
   );
