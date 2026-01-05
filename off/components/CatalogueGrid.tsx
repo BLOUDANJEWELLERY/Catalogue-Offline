@@ -51,7 +51,7 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
             </div>
 
             <div className="p-2">
-              <div className="grid grid-cols-2 grid-rows-2 gap-2 h-[calc(100vh-140px)]">
+              <div className="grid grid-cols-2 grid-rows-2 gap-2 h-[calc(70vh-140px)]">
                 {pageItems.map((item) => (
                   <div 
                     key={item._id}
