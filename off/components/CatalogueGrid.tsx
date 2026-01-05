@@ -36,8 +36,8 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
             key={`page-mobile-${pageIndex}`}
             className="bg-white shadow-lg mb-3 mx-2 rounded-lg"
             style={{
-              minHeight: 'calc(100vh - 1rem)',
-              maxHeight: 'calc(100vh - 1rem)',
+              minHeight: 'calc(80vh - 1rem)',
+              maxHeight: 'calc(80vh - 1rem)',
               overflow: 'hidden'
             }}
           >
@@ -51,7 +51,7 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
             </div>
 
             <div className="p-2">
-              <div className="grid grid-cols-2 grid-rows-2 gap-2 h-[calc(70vh-140px)]">
+              <div className="grid grid-cols-2 grid-rows-2 gap-2 h-[calc(80vh-140px)]">
                 {pageItems.map((item) => (
                   <div 
                     key={item._id}
