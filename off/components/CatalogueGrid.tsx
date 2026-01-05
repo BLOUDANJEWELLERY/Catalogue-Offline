@@ -203,20 +203,6 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
     </div>
   ))}
 </div>
-
-      <div className="text-center py-1 border-t border-[#c7a332] bg-[#c7a332] mt-2">
-        <p className="text-sm font-medium text-black">Page {pageIndex + 1}</p>
-      </div>
-    </div>
-  ))}
-</div>
-
-      <div className="text-center py-2 border-t border-[#c7a332] bg-[#c7a332]">
-        <p className="text-sm font-medium text-black">Page {pageIndex + 1}</p>
-      </div>
-    </div>
-  ))}
-      </div>
     </div>
   );
 }
