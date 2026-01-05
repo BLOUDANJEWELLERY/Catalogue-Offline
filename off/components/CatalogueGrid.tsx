@@ -26,12 +26,27 @@ interface CatalogueGridProps {
 export default function CatalogueGrid({ items }: CatalogueGridProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState<number | null>(null);
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
 
   const handleImageClick = (item: CatalogueItem) => {
     if (item.image) {
-      const imageUrl = urlFor(item.image).width(1200).url();
-      setSelectedImage(imageUrl);
-      setSelectedModel(item.modelNumber);
+      // Always use the same image URL as in the grid (already loaded)
+      const imageUrl = urlFor(item.image).width(800).url();
+      
+      // If image is already loaded, show it immediately
+      if (loadedImages.has(imageUrl)) {
+        setSelectedImage(imageUrl);
+        setSelectedModel(item.modelNumber);
+      } else {
+        // Preload image first, then show it
+        const img = new window.Image();
+        img.src = imageUrl;
+        img.onload = () => {
+          setLoadedImages(prev => new Set(prev).add(imageUrl));
+          setSelectedImage(imageUrl);
+          setSelectedModel(item.modelNumber);
+        };
+      }
     }
   };
 
@@ -71,30 +86,22 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
           {/* Transparent overlay */}
           <div className="absolute inset-0 bg-black/70" />
           
-          {/* Image with golden border */}
+          {/* Image with square golden border */}
           <div 
-            className="relative z-10 w-full max-w-4xl mx-auto"
+            className="relative z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative bg-transparent">
-              {/* Image with thin golden border */}
-              <div className="relative w-full h-[70vh] md:h-[80vh]">
-                <Image
-                  src={selectedImage}
-                  alt={`Bangle Model B${selectedModel}`}
-                  fill
-                  className="object-contain p-1 border-2 border-[#c7a332] rounded-lg shadow-2xl"
-                  unoptimized
-                  priority
-                />
-              </div>
-              
-              {/* Simple close hint */}
-              <div className="text-center mt-4">
-                <p className="text-white text-sm opacity-80">
-                  Click outside image or press ESC to close
-                </p>
-              </div>
+            <div className="relative">
+              {/* Image with square golden border - uses natural aspect ratio */}
+              <img
+                src={selectedImage}
+                alt={`Bangle Model B${selectedModel}`}
+                className="max-w-[90vw] max-h-[85vh] border-2 border-[#c7a332] shadow-2xl"
+                style={{
+                  aspectRatio: '1/1',
+                  objectFit: 'contain'
+                }}
+              />
             </div>
           </div>
         </div>
@@ -123,7 +130,7 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                 {pageItems.map((item) => (
                   <div
                     key={item._id}
-                    className="relative border-2 border-[#c7a332] rounded-xl bg-white flex flex-col items-center p-2 sm:p-3 md:p-4 group cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                    className="relative border-2 border-[#c7a332] rounded-xl bg-white flex flex-col items-center p-2 sm:p-3 md:p-4 group cursor-pointer hover:shadow-xl transition-all duration-300"
                     onClick={() => handleImageClick(item)}
                   >
                     {/* Image Container - Responsive */}
@@ -134,12 +141,15 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                             src={urlFor(item.image).width(600).url()}
                             alt={`Bangle Model B${item.modelNumber}`}
                             fill
-                            className="object-contain rounded-lg group-hover:scale-105 transition-transform duration-300"
+                            className="object-contain rounded-lg"
                             unoptimized
                             sizes="(max-width: 640px) 45vw, (max-width: 768px) 30vw, (max-width: 1024px) 22vw, 20vw"
+                            onLoad={(e) => {
+                              // Mark this image as loaded for quick popup
+                              const imgUrl = urlFor(item.image!).width(800).url();
+                              setLoadedImages(prev => new Set(prev).add(imgUrl));
+                            }}
                           />
-                          {/* Hover overlay */}
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-lg transition-colors duration-300" />
                         </>
                       ) : (
                         <div className="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center">
@@ -177,13 +187,12 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                       className="border-2 border-dashed border-[#c7a332] rounded-xl bg-gray-50 flex flex-col items-center justify-center p-4 min-h-[200px] sm:min-h-[220px] md:min-h-[240px]"
                     >
                       <span className="text-gray-300 text-xl sm:text-2xl">—</span>
-                      <p className="text-gray-400 text-xs sm:text-sm mt-2">Available Slot</p>
                     </div>
                   ))}
               </div>
             </div>
 
-            {/* Page Footer - SIMPLIFIED */}
+            {/* Page Footer */}
             <div className="text-center py-2 sm:py-3 border-t-2 border-[#c7a332] bg-[#c7a332]">
               <p className="text-sm sm:text-base md:text-lg font-medium text-black">
                 Page {pageIndex + 1} of {pages.length}
