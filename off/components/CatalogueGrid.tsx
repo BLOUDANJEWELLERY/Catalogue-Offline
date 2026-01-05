@@ -28,24 +28,22 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
   const [selectedModel, setSelectedModel] = useState<number | null>(null);
   const [preloadedImages, setPreloadedImages] = useState<{[key: string]: HTMLImageElement}>({});
 
-  // Preload all images on component mount
+  // Preload all images on component mount (client-side only)
   useEffect(() => {
-    const preloadImages = async () => {
-      const preloaded: {[key: string]: HTMLImageElement} = {};
-      
-      items.forEach(item => {
-        if (item.image) {
-          const imageUrl = urlFor(item.image).width(1200).url();
-          const img = new Image();
-          img.src = imageUrl;
-          preloaded[imageUrl] = img;
-        }
-      });
-      
-      setPreloadedImages(preloaded);
-    };
+    if (typeof window === 'undefined') return;
     
-    preloadImages();
+    const preloaded: {[key: string]: HTMLImageElement} = {};
+    
+    items.forEach(item => {
+      if (item.image) {
+        const imageUrl = urlFor(item.image).width(1200).url();
+        const img = new window.Image();
+        img.src = imageUrl;
+        preloaded[imageUrl] = img;
+      }
+    });
+    
+    setPreloadedImages(preloaded);
   }, [items]);
 
   const handleImageClick = (item: CatalogueItem) => {
@@ -58,7 +56,7 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
         setSelectedModel(item.modelNumber);
       } else {
         // Fallback: load and cache
-        const img = new Image();
+        const img = new window.Image();
         img.src = imageUrl;
         img.onload = () => {
           setSelectedImage(imageUrl);
