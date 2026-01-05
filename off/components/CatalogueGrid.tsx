@@ -23,14 +23,8 @@ interface CatalogueGridProps {
   items: CatalogueItem[];
 }
 
-interface PopupItem {
-  imageUrl: string;
-  modelNumber: number;
-  title: string;
-}
-
 export default function CatalogueGrid({ items }: CatalogueGridProps) {
-  const [popupItem, setPopupItem] = useState<PopupItem | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const itemsPerPage = 4;
   const pages = [];
@@ -40,72 +34,50 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
   }
 
   const handleImageClick = (item: CatalogueItem) => {
-    if (!item.image) return;
-    
-    const imageUrl = urlFor(item.image).width(1200).url();
-    setPopupItem({
-      imageUrl,
-      modelNumber: item.modelNumber,
-      title: `B${item.modelNumber}`
-    });
+    if (item.image) {
+      // Use the same image URL as in the grid to avoid slow loading
+      const imageUrl = urlFor(item.image).width(800).url();
+      setSelectedImage(imageUrl);
+    }
   };
 
-  const handleClosePopup = () => {
-    setPopupItem(null);
-  };
-
-  const handlePopupClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleCloseImage = () => {
+    setSelectedImage(null);
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-0">
-      {/* Popup Modal */}
-      {popupItem && (
+      {/* Simple Image Popup */}
+      {selectedImage && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          onClick={handleClosePopup}
+          onClick={handleCloseImage}
         >
           {/* Transparent overlay */}
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" />
+          <div className="absolute inset-0 bg-black/60" />
           
-          {/* Popup content */}
-          <div 
-            className="relative z-10 w-full max-w-4xl max-h-[90vh]"
-            onClick={handlePopupClick}
-          >
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-              <div className="p-4 bg-[#c7a332] border-b border-[#b5922a]">
-                <h3 className="text-xl font-bold text-black text-center">
-                  {popupItem.title}
-                </h3>
-              </div>
+          {/* Image container - click to close */}
+          <div className="relative z-10 max-w-[90vw] max-h-[90vh]">
+            <div className="relative w-full h-full">
+              <Image
+                src={selectedImage}
+                alt="Enlarged view"
+                width={800}
+                height={800}
+                className="object-contain rounded-lg shadow-2xl"
+                unoptimized
+                priority
+                onClick={(e) => e.stopPropagation()}
+              />
               
-              <div className="relative w-full h-[70vh] flex items-center justify-center p-4">
-                <Image
-                  src={popupItem.imageUrl}
-                  alt={popupItem.title}
-                  fill
-                  className="object-contain p-4"
-                  unoptimized
-                  priority
-                />
-              </div>
-              
-              <div className="p-4 border-t border-gray-200 text-center">
-                <button
-                  onClick={handleClosePopup}
-                  className="px-6 py-2 bg-[#0b1a3d] text-white font-medium rounded-lg hover:bg-[#142a5e] transition-colors"
-                >
-                  Close
-                </button>
-              </div>
+              {/* Close button */}
+              <button
+                onClick={handleCloseImage}
+                className="absolute -top-10 right-0 text-white text-lg font-semibold hover:text-gray-300 transition-colors"
+              >
+                ✕ Close
+              </button>
             </div>
-            
-            {/* Close hint */}
-            <p className="text-white text-center mt-4 text-sm opacity-80">
-              Click outside the image or press ESC to close
-            </p>
           </div>
         </div>
       )}
@@ -137,9 +109,11 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                   <div 
                     key={item._id}
                     className="relative border-2 border-[#c7a332] rounded-xl shadow-sm bg-white group cursor-pointer hover:shadow-md transition-shadow"
-                    onClick={() => handleImageClick(item)}
                   >
-                    <div className="relative w-full h-40 flex items-center justify-center pt-1">
+                    <div 
+                      className="relative w-full h-40 flex items-center justify-center pt-1"
+                      onClick={() => handleImageClick(item)}
+                    >
                       {item.image ? (
                         <div className="relative w-36 h-36">
                           <Image
@@ -150,7 +124,6 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                             unoptimized
                             sizes="45vw"
                           />
-                          {/* Hover overlay */}
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 rounded-lg transition-colors" />
                         </div>
                       ) : (
@@ -176,11 +149,6 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                           </p>
                         )}
                       </div>
-                    </div>
-                    
-                    {/* Click hint */}
-                    <div className="absolute top-2 right-2 w-6 h-6 bg-[#c7a332] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="text-xs text-black font-bold">+</span>
                     </div>
                   </div>
                 ))}
@@ -228,9 +196,11 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                 <div
                   key={item._id}
                   className="border-2 border-[#c7a332] rounded-xl bg-white flex flex-col items-center p-2 group cursor-pointer hover:shadow-lg transition-all duration-200"
-                  onClick={() => handleImageClick(item)}
                 >
-                  <div className="relative w-40 h-40 flex items-center justify-center">
+                  <div 
+                    className="relative w-40 h-40 flex items-center justify-center"
+                    onClick={() => handleImageClick(item)}
+                  >
                     {item.image ? (
                       <>
                         <Image
@@ -241,7 +211,6 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                           unoptimized
                           sizes="25vw"
                         />
-                        {/* Hover overlay */}
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 rounded-lg transition-colors" />
                       </>
                     ) : (
@@ -266,11 +235,6 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
                         K-{item.weightKids}g
                       </p>
                     )}
-                  </div>
-                  
-                  {/* Click hint */}
-                  <div className="absolute top-3 right-3 w-8 h-8 bg-[#c7a332] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <span className="text-sm text-black font-bold">+</span>
                   </div>
                 </div>
               ))}
