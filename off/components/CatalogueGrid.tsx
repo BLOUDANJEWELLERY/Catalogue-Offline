@@ -128,78 +128,80 @@ export default function CatalogueGrid({ items }: CatalogueGridProps) {
         ))}
       </div>
 
-      <div className="hidden md:block max-w-[210mm] mx-auto">
+<div className="hidden md:block max-w-[210mm] mx-auto">
   {pages.map((pageItems, pageIndex) => (
     <div
       key={`page-desktop-${pageIndex}`}
-      className="bg-white shadow-lg border border-gray-300 rounded-lg mb-4 flex flex-col"
-      style={{ width: "210mm", minHeight: "297mm" }}
+      className="bg-white shadow-lg border border-gray-300 rounded-lg mb-4 p-2"
     >
-      <div className="text-center py-2 px-4 border-b border-[#c7a332] bg-[#c7a332]">
+      <div className="text-center py-1 px-4 border-b border-[#c7a332] bg-[#c7a332]">
         <h1 className="text-lg font-bold text-black tracking-tight">
           BLOUDAN JEWELLERY
         </h1>
-        <h2 className="text-sm text-black font-medium mt-0.5">
+        <h2 className="text-sm text-black font-medium -mt-0.5">
           BANGLES CATALOGUE
         </h2>
       </div>
 
-      <div className="p-2 flex-1 grid grid-cols-2 grid-rows-2 gap-2">
+      <div className="grid grid-cols-2 gap-3 mt-2">
         {pageItems.map((item) => (
           <div
             key={item._id}
-            className="relative border-2 border-[#c7a332] rounded-xl bg-white flex flex-col items-center justify-between p-2"
+            className="border-2 border-[#c7a332] rounded-xl bg-white flex flex-col items-center p-2"
           >
-            <div className="relative w-full flex-1 flex items-center justify-center">
+            <div className="relative w-40 h-40 flex items-center justify-center">
               {item.image ? (
-                <div className="relative w-full h-full max-w-40 max-h-40">
-                  <Image
-                    src={urlFor(item.image).width(800).url()}
-                    alt={`B${item.modelNumber}`}
-                    fill
-                    className="object-contain rounded-lg"
-                    unoptimized
-                    sizes="25vw"
-                  />
-                </div>
+                <Image
+                  src={urlFor(item.image).width(800).url()}
+                  alt={`B${item.modelNumber}`}
+                  fill
+                  className="object-contain rounded-lg"
+                  unoptimized
+                  sizes="25vw"
+                />
               ) : (
-                <div className="w-full h-full max-w-40 max-h-40 bg-gray-100 rounded-lg flex items-center justify-center">
+                <div className="w-40 h-40 bg-gray-100 rounded-lg flex items-center justify-center">
                   <span className="text-gray-400">No Image</span>
                 </div>
               )}
             </div>
 
-            <div className="w-full text-center mt-2">
-              <p className="text-2xl font-bold text-[#0b1a3d]">
-                B{item.modelNumber}
-              </p>
-              <div className="flex flex-wrap justify-center gap-1 mt-1">
-                {item.sizes?.includes("Adult") && item.weightAdult && (
-                  <p className="text-xs font-medium text-gray-800 bg-gray-100 rounded-full px-1.5 py-0.5">
-                    {item.weightAdult}g
-                  </p>
-                )}
-                {item.sizes?.includes("Kids") && item.weightKids && (
-                  <p className="text-xs font-medium text-gray-800 bg-gray-100 rounded-full px-1.5 py-0.5">
-                    K-{item.weightKids}g
-                  </p>
-                )}
-              </div>
+            <p className="text-2xl font-bold text-[#0b1a3d] mt-2">
+              B{item.modelNumber}
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-1 mt-1">
+              {item.sizes?.includes("Adult") && item.weightAdult && (
+                <p className="text-xs font-medium text-gray-800 bg-gray-100 rounded-full px-1.5 py-0.5">
+                  {item.weightAdult}g
+                </p>
+              )}
+              {item.sizes?.includes("Kids") && item.weightKids && (
+                <p className="text-xs font-medium text-gray-800 bg-gray-100 rounded-full px-1.5 py-0.5">
+                  K-{item.weightKids}g
+                </p>
+              )}
             </div>
           </div>
         ))}
 
-        {/* Empty placeholders */}
         {pageItems.length < 4 &&
           Array.from({ length: 4 - pageItems.length }).map((_, index) => (
             <div
               key={`empty-desktop-${pageIndex}-${index}`}
-              className="border-2 border-dashed border-[#c7a332] rounded-xl bg-gray-50 flex items-center justify-center"
+              className="border-2 border-dashed border-[#c7a332] rounded-xl bg-gray-50 flex items-center justify-center h-40"
             >
               <span className="text-gray-300 text-xl">—</span>
             </div>
           ))}
       </div>
+
+      <div className="text-center py-1 border-t border-[#c7a332] bg-[#c7a332] mt-2">
+        <p className="text-sm font-medium text-black">Page {pageIndex + 1}</p>
+      </div>
+    </div>
+  ))}
+</div>
 
       <div className="text-center py-2 border-t border-[#c7a332] bg-[#c7a332]">
         <p className="text-sm font-medium text-black">Page {pageIndex + 1}</p>
